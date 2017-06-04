@@ -72,6 +72,37 @@
 </tbody>
 </table>
 </div>
+<div class="section" id="compare-files-in-a-path-w-respect-to-another">
+<h2>Compare files in a path w/ respect to another<a class="headerlink" href="#compare-files-in-a-path-w-respect-to-another" title="Permalink to this headline">¶</a></h2>
+<table border="1" class="docutils">
+<colgroup>
+<col width="21%" />
+<col width="79%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><strong>Precondition</strong></td>
+<td>Specification of the reference path and the tested path</td>
+</tr>
+<tr class="row-even"><td><strong>Postcondition</strong></td>
+<td><ul class="first last simple">
+<li>The files missing in the tested path are identified</li>
+<li>The additional files that are not in the reference file are identified</li>
+<li>List the files that are present in both paths but in different locations and potentially with
+different names</li>
+<li>print a summary in an unformatted text file</li>
+</ul>
+</td>
+</tr>
+<tr class="row-odd"><td><strong>Technology</strong></td>
+<td><ul class="first last simple">
+<li>The reference path and the tested one are specified as arguments of the run script in the
+shell</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
 </div>
 
 
@@ -84,6 +115,7 @@
   <ul>
 <li><a class="reference internal" href="#">Specification of use cases</a><ul>
 <li><a class="reference internal" href="#scan-a-path-and-identify-files">Scan a path and identify files</a></li>
+<li><a class="reference internal" href="#compare-files-in-a-path-w-respect-to-another">Compare files in a path w/ respect to another</a></li>
 </ul>
 </li>
 </ul>

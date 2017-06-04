@@ -1,0 +1,12 @@
+[REF]: return from property path of Mock object named 'mock_refPathScan'
+[COMP]: return from property path of Mock object named 'mock_compPathScan'
+#MISNAMING: [REF]/Path_A/Path_AB/Path_ABA/file_02
+Rename file [COMP]/Path_A/Path_AB/Path_ABA/file_02C
+#MISPLACEMENT: [REF]/File_07
+Move file [COMP]/Path_A/Path_AA/file_07C to [COMP]/file_07
+Remove file [COMP]/Path_A/Path_AB/Path_ABA/file_07
+#MISSING: [REF]/Path_B/file_06
+#NEW: [COMP]/Path_A/file_09
+#NEW: [COMP]/file_10
+#REDUNDANCY: [REF]/File_08
+Remove file [COMP]/Path_A/Path_AB/Path_ABA/file_08

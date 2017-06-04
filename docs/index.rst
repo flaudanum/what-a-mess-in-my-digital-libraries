@@ -13,6 +13,7 @@ Contents
    :maxdepth: 2
 
    design/design
+   tests/index
 
 
 Indices and tables
