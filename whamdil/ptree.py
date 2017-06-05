@@ -112,10 +112,7 @@ class PathScan:
             txtIOWrper.write(jsonFormatted)
 
     def matchHash(self, hashNum):
-        for info in self.libFiles:
-            if info['hash']==hashNum:
-                return info
-        return None
+        return [info for info in self.libFiles if info['hash']==hashNum]
 
     def getRelPath(self,dirId):
         def getDirDict(dirId):
@@ -124,8 +121,11 @@ class PathScan:
                     return d
             return None
 
+        if dirId==0: # Root directory
+            return ''
+
         dirDict = getDirDict(dirId)
-        if dirDict==None:
+        if dirDict==None: # the directory entry does not exists
             return None
         if dirDict['par']==0:
             return dirDict['name']

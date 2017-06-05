@@ -25,23 +25,17 @@ class Handler:
         """
         """
 
-        # # Check and store the path to scan
-        # if not(os.path.isdir(refPathScan)):
-        #     raise OSError('class compare.Handler, contructor:\n\'refPathScan\' is not an existing directory:\n'+refPathScan)
-        # if not(os.path.isdir(compPathScan)):
-        #     raise OSError('class compare.Handler, contructor:\n\'compPathScan\' is not an existing directory:\n'+refPathScan)
         self.__refPathScan = refPathScan
         self.__compPathScan = compPathScan
 
         self.__misnaming = []
 
         for refInfo in self.refPathScan.libFiles:
-            for compInfo in self.compPathScan.libFiles:
-                if compInfo['hash']==refInfo['hash']:
-                    compFullPath = self.compPathScan.getRelPath(compInfo['dir'])
-                    refFullPath = self.refPathScan.getRelPath(compInfo['dir'])
-                    if (compFullPath==refFullPath) and (compInfo['name']!=refInfo['name']):
-                        self.__misnaming.append(Misnaming(path=compFullPath, refName=refInfo['name'], compName=compInfo['name']))
+            refFullPath = self.refPathScan.getRelPath(refInfo['dir'])
+            for compInfo in self.compPathScan.matchHash(refInfo['hash']):
+                compFullPath = self.compPathScan.getRelPath(compInfo['dir'])
+                if (compFullPath==refFullPath) and (compInfo['name']!=refInfo['name']):
+                    self.__misnaming.append(Misnaming(path=compFullPath, refName=refInfo['name'], compName=compInfo['name']))
 
 
 
@@ -65,7 +59,28 @@ class Misnaming:
         self.__refName  = refName
         self.__compName = compName
 
-    def action(self):
-        message = ['#MISNAMING: [REF]/{0}/{1}\n'.format(self.path,self.refName),]
-        message.append('Rename file [COMP]/{0}/{1}\n'.format(self.path,self.compName))
+    def __repr__(self):
+        return 'Misnaming(path=\'{path}\',refName=\'{ref}\',compName=\'{comp}\')'.format(path=self.path,ref=self.refName,comp=self.compName)
+
+    def action(self,form='text'):
+        if form=='text':
+            return self.__actionText()
+        else:
+            raise ValueError('Class Misnaming, method action: wrong format \'{0}\''.format(form))
+
+    def __actionText(self):
+        if self.path!='':
+            message = ['#MISNAMING: [REF]/{0}/{1}\n'.format(self.path,self.refName),]
+            message.append('Rename file [COMP]/{0}/{1}\n'.format(self.path,self.compName))
+        else:
+            message = ['#MISNAMING: [REF]/{0}\n'.format(self.refName),]
+            message.append('Rename file [COMP]/{0}\n'.format(self.compName))
+
         return message
+
+    def shell(self):
+        if self.path!='':
+            command = ['mv $COMP/{0}/{1} $COMP/{0}/{2}\n'.format(self.path,self.compName,self.refName),]
+        else:
+            command = ['mv $COMP/{0} $COMP/{1}\n'.format(self.compName,self.refName),]
+        return command

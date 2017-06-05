@@ -94,15 +94,19 @@ class TestPathScan(unittest.TestCase):
 
     def test_getRelPath(self):
         path = TestPathScan.pTreeObj.getRelPath(4)
+        root = TestPathScan.pTreeObj.getRelPath(0)
         nopath = TestPathScan.pTreeObj.getRelPath(12)
 
         self.assertEqual(path,'Path_A/Path_AB/Path_ABA')
+        self.assertEqual(root,'')
         self.assertIsNone(nopath)
 
     def test_matchHash(self):
         file01Hash = TestPathScan.refLibFiles[0]['hash']
-        fileInfo = TestPathScan.pTreeObj.matchHash(file01Hash)
+        fileInfo = TestPathScan.pTreeObj.matchHash(file01Hash)[0]
         self.assertEqual(fileInfo, TestPathScan.refLibFiles[0])
+
+        self.assertFalse( bool(TestPathScan.pTreeObj.matchHash('00000000000000000000000000000000')) )
 
 
     def test_saveFile(self):
