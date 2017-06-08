@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Description of unit tests for class PathTree &#8212; What a mess in my digital libraries! 0.1.0 documentation</title>
+    <title>Description of test cases &#8212; What a mess in my digital libraries! 0.1.0 documentation</title>
     
     <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -41,11 +41,12 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="description-of-unit-tests-for-class-pathtree">
-<h1>Description of unit tests for class <code class="docutils literal"><span class="pre">PathTree</span></code><a class="headerlink" href="#description-of-unit-tests-for-class-pathtree" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="description-of-test-cases">
+<h1>Description of test cases<a class="headerlink" href="#description-of-test-cases" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="test-case-path-01">
 <h2>Test case - path_01<a class="headerlink" href="#test-case-path-01" title="Permalink to this headline">¶</a></h2>
-<p>Here is the file structure of the path <code class="docutils literal"><span class="pre">path_01</span></code></p>
+<p>Here is the file structure of the path <code class="docutils literal"><span class="pre">path_01</span></code>. This path is generated with the script
+<code class="docutils literal"><span class="pre">/tests/test_cases/gen_path01.sh</span></code>.</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">|</span> <span class="n">Path_A</span>
 <span class="o">|</span> <span class="o">|</span><span class="n">_Path_AA</span>
 <span class="o">|</span> <span class="o">|</span> <span class="o">|</span><span class="n">_file_01</span>
@@ -61,6 +62,12 @@
 <span class="o">|</span> <span class="n">file_08</span>
 </pre></div>
 </div>
+<p>The files <code class="docutils literal"><span class="pre">file_**</span></code> are unformatted files which content is created with the
+random generator provided by the following shell command:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>head -c <span class="m">256000</span> /dev/urandom &gt; Path_to_the_file_with_random content
+</pre></div>
+</div>
+<p>This test case is used by the unit tests script <code class="docutils literal"><span class="pre">tests/unittests/test_ptree.py</span></code>.</p>
 </div>
 </div>
 
@@ -72,7 +79,7 @@
         <div class="sphinxsidebarwrapper">
   <h3><a href="../index.html">Table Of Contents</a></h3>
   <ul>
-<li><a class="reference internal" href="#">Description of unit tests for class <code class="docutils literal"><span class="pre">PathTree</span></code></a><ul>
+<li><a class="reference internal" href="#">Description of test cases</a><ul>
 <li><a class="reference internal" href="#test-case-path-01">Test case - path_01</a></li>
 </ul>
 </li>

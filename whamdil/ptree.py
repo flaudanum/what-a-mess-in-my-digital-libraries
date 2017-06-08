@@ -63,6 +63,8 @@ class PathScan:
             if ans in ('n',''):
                 (self.__directories, self.__libFiles) = self.__json()
                 return
+            else:
+                os.unlink(self.saveFilePath)
 
         self.__directories = []
         self.__libFiles = []

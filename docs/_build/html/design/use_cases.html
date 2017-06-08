@@ -25,6 +25,7 @@
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <link rel="top" title="What a mess in my digital libraries! 0.1.0 documentation" href="../index.html" />
     <link rel="up" title="Documentation of the design process" href="design.html" />
+    <link rel="next" title="List of tests" href="../tests/index.html" />
     <link rel="prev" title="Documentation of the design process" href="design.html" />
    
   <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
@@ -85,11 +86,17 @@
 </tr>
 <tr class="row-even"><td><strong>Postcondition</strong></td>
 <td><ul class="first last simple">
-<li>The files missing in the tested path are identified</li>
-<li>The additional files that are not in the reference file are identified</li>
-<li>List the files that are present in both paths but in different locations and potentially with
-different names</li>
-<li>print a summary in an unformatted text file</li>
+<li>The tested path is compared with the reference path and the differences are identified:<ul>
+<li>The files missing in the tested path</li>
+<li>The additional files that are not in the reference path</li>
+<li>The files which paths are the same but which names differs (misnaming)</li>
+<li>The files that are present in both paths but at different locations (misplacement)</li>
+<li>The redundancy, that is the files that appear several times in the reference and tested
+paths</li>
+</ul>
+</li>
+<li>The differences are listed in text file with a description of associated corrective actions</li>
+<li>A shell script for performing the corrective actions is created</li>
 </ul>
 </td>
 </tr>
@@ -125,6 +132,7 @@ shell</li>
   <li><a href="../index.html">Documentation overview</a><ul>
   <li><a href="design.html">Documentation of the design process</a><ul>
       <li>Previous: <a href="design.html" title="previous chapter">Documentation of the design process</a></li>
+      <li>Next: <a href="../tests/index.html" title="next chapter">List of tests</a></li>
   </ul></li>
   </ul></li>
 </ul>
