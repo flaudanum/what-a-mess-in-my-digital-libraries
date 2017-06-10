@@ -45,6 +45,9 @@ class Handler:
             refFullPath = self.refPathScan.getRelPath(refInfo['dir'])
             # List of files with the same hash number than the reference file
             matchedFiles = self.compPathScan.matchHash(refInfo['hash'])
+            # No match --> skip to next iteration
+            if not(bool(matchedFiles)):
+                continue
 
             # Test path equality
             def diffPath(info):
@@ -54,7 +57,8 @@ class Handler:
             misplacedFiles = filter(diffPath, matchedFiles)
             # Create Misplacement instances
             compFounds = [ (self.compPathScan.getRelPath(info['dir']), info['name']) for info in misplacedFiles]
-            self.__misplacement.append(Misplacement(refPath=refFullPath,refName=refInfo['name'],compFounds=compFounds))
+            if compFounds:
+                self.__misplacement.append(Misplacement(refPath=refFullPath,refName=refInfo['name'],compFounds=compFounds))
 
             # Create Misnaming instances
             for compInfo in matchedFiles:
@@ -159,7 +163,7 @@ class Misplacement:
         self.__compFounds = compFounds
 
     def __repr__(self):
-        return 'Misplacement(refPath=\'{refPath}\',refName=\'{refName}\',compFounds=\'{compFounds}\')'.\
+        return 'Misplacement(refPath=\'{refPath}\',refName=\'{refName}\',compFounds={compFounds})'.\
         format(refPath=self.refPath,refName=self.refName,compFounds=str(self.compFounds))
 
     def action(self,form='text'):

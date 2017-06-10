@@ -36,10 +36,15 @@ if __name__=="__main__":
     parser.add_argument('compPath', help='Path to compare to the reference',nargs='?',default=None)
     args = parser.parse_args()
 
-
-    if args.compPath==None: # Only the required positional argument 'refPath' is provided
-        # Use case: Scan a path and identify files
-        scanPath(args.refPath)
-    else: # The second optional positional argument 'compPath' is provided
-        # Use case: Compare two paths
-        comparePaths(args.refPath,args.compPath)
+    try:
+        if args.compPath==None: # Only the required positional argument 'refPath' is provided
+            # Use case: Scan a path and identify files
+            scanPath(args.refPath)
+        else: # The second optional positional argument 'compPath' is provided
+            # Use case: Compare two paths
+            comparePaths(args.refPath,args.compPath)
+    except:
+        import pdb
+        import traceback
+        traceback.print_exc()
+        pdb.post_mortem()
