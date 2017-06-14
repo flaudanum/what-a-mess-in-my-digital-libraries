@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+PYTHON=#PYTHON#
+
+WHAMDIL_HOME=#HOME#
+
+$PYTHON $WHAMDIL_HOME/whamdil/whamdil.py "$@"

@@ -31,9 +31,9 @@ def comparePaths(refPath,compPath):
 
 
 if __name__=="__main__":
-    parser = argparse.ArgumentParser(description='Compare and help you reorganize the multiple versions of your digital libraries')
+    parser = argparse.ArgumentParser(prog='whamdil',description='Compare and help you reorganize the multiple versions of your digital libraries.')
     parser.add_argument('refPath', help='Path of reference')
-    parser.add_argument('compPath', help='Path to compare to the reference',nargs='?',default=None)
+    parser.add_argument('compPath', help='Path to be compared to the reference',nargs='?',default=None)
     args = parser.parse_args()
 
     try:

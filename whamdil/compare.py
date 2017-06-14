@@ -24,6 +24,9 @@ class Handler:
     def misplacement(self):
         return self.__misplacement
 
+    @property
+    def missing(self):
+        return self.__missing
 
     def __init__(self, refPathScan, compPathScan):
         """
@@ -34,6 +37,7 @@ class Handler:
 
         self.__misnaming = []
         self.__misplacement = []
+        self.__missing = []
 
         # MISNAMING
         # Same files, same path, different names
@@ -45,8 +49,10 @@ class Handler:
             refFullPath = self.refPathScan.getRelPath(refInfo['dir'])
             # List of files with the same hash number than the reference file
             matchedFiles = self.compPathScan.matchHash(refInfo['hash'])
-            # No match --> skip to next iteration
+
+            # If no match then create a Missing object and go to next iteration
             if not(bool(matchedFiles)):
+                self.__missing.append(Missing(refPath=refFullPath,refName=refInfo['name']))
                 continue
 
             # Test path equality
@@ -184,4 +190,45 @@ class Misplacement:
         command = ['# Misplaced copies of [REF]{0}/{1}\n'.format(fp(self.refPath),self.refName),]
         command.append('mv $COMP{0}/{1} $COMP{2}/{3}\n'.format(fp(self.compFounds[0][0]),self.compFounds[0][1],fp(self.refPath),self.refName))
         command+=['rm -i $COMP{0}/{1}\n'.format(fp(found[0]),found[1]) for found in self.compFounds[1:]]
+        return command
+
+
+class Missing:
+    """
+    """
+
+    @property
+    def refPath(self):
+        return self.__refPath
+
+    @property
+    def refName(self):
+        return self.__refName
+
+    def __init__(self,refPath,refName):
+        """
+        """
+        self.__refPath = refPath
+        self.__refName = refName
+
+    def __repr__(self):
+        return 'Missing(refPath=\'{refPath}\',refName=\'{refName}'.format(refPath=self.refPath,refName=self.refName)
+
+
+    def action(self,form='text'):
+        if form=='text':
+            return self.__actionText()
+        else:
+            raise ValueError('Class Misnaming, method action: wrong format \'{0}\''.format(form))
+
+    def __actionText(self):
+        fp = lambda path: '' if path=='' else '/'+path # Format Path for dealing with root directory case
+        message = ['#MISSING: [REF]{0}/{1} in [COMP]\n'.format(fp(self.refPath),self.refName),]
+        return message
+
+    def shell(self):
+        fp = lambda path: '' if path=='' else '/'+path # Format Path for dealing with root directory case
+        # Missing file [REF]/Path_A/file_01 in [COMP]\n
+        command = ['# Missing file $REF{0}/{1} in $COMP\n'.format(fp(self.refPath),self.refName),]
+        command.append('cp $REF{0}/{1} $COMP{0}/{1}\n'.format(fp(self.refPath),self.refName))
         return command

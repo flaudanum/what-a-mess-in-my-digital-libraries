@@ -15,7 +15,29 @@ import shutil
 from ptree   import *
 from compare import *
 
+
+
+
 class TestHandler(unittest.TestCase):
+
+
+    def getRelPath(self, dirId, pathsMap):
+        """
+        Surrogate function for method PathScan.getRelPath()
+        """
+        if dirId in pathsMap.keys():
+            return pathsMap[dirId]
+        else:
+            raise ValueError('{0} not a proper dirId'.format(dirId))
+
+    def matchHash(self, hashNum, hashDict):
+        """
+        Surrogate function for method PathScan.matchHash()
+        """
+        if hashNum in hashDict.keys():
+            return hashDict[hashNum]
+        else:
+            return []
 
 
     def test_misnaming_01(self):
@@ -84,13 +106,13 @@ class TestHandler(unittest.TestCase):
 
         #------------------------ B U I L D I N G   M O C K   O B J E C T S ------------------------
 
-        # Function definition for methods getRelPath() of Mock objects
-        def getRelPath(dirId):
-            pathsMap = {0:'', 1:'Path_A'}
-            if dirId in pathsMap.keys():
-                return pathsMap[dirId]
-            else:
-                raise ValueError('{0} not a proper dirId'.format(dirId))
+        # # Function definition for methods getRelPath() of Mock objects
+        # def getRelPath(dirId):
+        #     pathsMap = {0:'', 1:'Path_A'}
+        #     if dirId in pathsMap.keys():
+        #         return pathsMap[dirId]
+        #     else:
+        #         raise ValueError('{0} not a proper dirId'.format(dirId))
 
         # Mock object for the reference PathScan object
         refPsObj = um.Mock(spec_set=PathScan, name='mock_refPathScan')
@@ -98,13 +120,13 @@ class TestHandler(unittest.TestCase):
         refFile01bisInfo = {'name':'file_01bis', 'dir':0,'hash':'00000000000000000000000000000000'}
         refLfPropertyMock = um.PropertyMock(return_value=(refFile01Info,refFile01bisInfo))
         type(refPsObj).libFiles = refLfPropertyMock
-        refPsObj.getRelPath = um.Mock(side_effect=getRelPath)
+        refPsObj.getRelPath = um.Mock(side_effect=lambda dirId: self.getRelPath(dirId,{0:'',1:'Path_A'}))
 
         # Mock object for the compared PathScan object
         compPsObj = um.Mock(spec_set=PathScan, name='mock_compPathScan')
         compFile01Info = {'name':'file_01_misnamed', 'dir':1,'hash':'00000000000000000000000000000000'}
         compFile01bisInfo = {'name':'file_01bis_misnamed', 'dir':0,'hash':'00000000000000000000000000000000'}
-        compPsObj.getRelPath = um.Mock(side_effect=getRelPath)
+        compPsObj.getRelPath = um.Mock(side_effect=lambda dirId: self.getRelPath(dirId,{0:'',1:'Path_A'}))
         compPsObj.matchHash = um.Mock(side_effect=lambda hashNum: [compFile01Info,compFile01bisInfo])
 
         #------------------------ C R E A T I O N   &   O P E R A T I O N S ------------------------
@@ -186,13 +208,6 @@ class TestHandler(unittest.TestCase):
         rm $COMP/Path_D/file_01bis_misnamed
         """
 
-        # Function definition for methods getRelPath() of Mock objects
-        def getRelPath(dirId, pathsMap):
-            if dirId in pathsMap.keys():
-                return pathsMap[dirId]
-            else:
-                raise ValueError('{0} not a proper dirId'.format(dirId))
-
         # Mock object for the reference PathScan object
         refPsObj = um.Mock(spec_set=PathScan, name='mock_refPathScan')
         refFile01Info = {'name':'file_01', 'dir':1,'hash':'00000000000000000000000000000000'}
@@ -200,22 +215,19 @@ class TestHandler(unittest.TestCase):
         refFile02Info = {'name':'file_02', 'dir':0,'hash':'FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF'}
         refLfPropertyMock = um.PropertyMock(return_value=[refFile01Info,refFile01bisInfo,refFile02Info])
         type(refPsObj).libFiles = refLfPropertyMock
-        refPsObj.getRelPath = um.Mock(side_effect=lambda dirId: getRelPath(dirId,{0:'',1:'Path_A',2:'Path_B'}))
+        refPsObj.getRelPath = um.Mock(side_effect=lambda dirId: self.getRelPath(dirId,{0:'',1:'Path_A',2:'Path_B'}))
 
         # Mock object for the compared PathScan object
         compPsObj = um.Mock(spec_set=PathScan, name='mock_compPathScan')
         compFile01Info = {'name':'file_01', 'dir':1,'hash':'00000000000000000000000000000000'}
         compFile01bisInfo = {'name':'file_01bis_misnamed', 'dir':2,'hash':'00000000000000000000000000000000'}
         compFile02Info = {'name':'file_02', 'dir':0,'hash':'FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF'}
-        compPsObj.getRelPath = um.Mock(side_effect=lambda dirId: getRelPath(dirId,{0:'',1:'Path_C',2:'Path_D'}))
-        def matchHash(hashNum):
-            if hashNum=='00000000000000000000000000000000':
-                return [compFile01Info,compFile01bisInfo]
-            elif hashNum=='FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF':
-                return [compFile02Info,]
-            else:
-                raise ValueError('No hash number {0}'.format(hashNum))
-        compPsObj.matchHash = um.Mock(side_effect=matchHash)
+        compPsObj.getRelPath = um.Mock(side_effect=lambda dirId: self.getRelPath(dirId,{0:'',1:'Path_C',2:'Path_D'}))
+        hdict = {\
+        '00000000000000000000000000000000':[compFile01Info,compFile01bisInfo],
+        'FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF':[compFile02Info,]}
+        compPsObj.matchHash = um.Mock(side_effect= lambda num: self.matchHash(hashNum=num, hashDict=hdict))
+
 
         #------------------------ C R E A T I O N   &   O P E R A T I O N S ------------------------
 
@@ -274,13 +286,6 @@ class TestHandler(unittest.TestCase):
     def test_describeText_01(self):
 
 
-        # Function definition for methods getRelPath() of Mock objects
-        def getRelPath(dirId, pathsMap):
-            if dirId in pathsMap.keys():
-                return pathsMap[dirId]
-            else:
-                raise ValueError('{0} not a proper dirId'.format(dirId))
-
         # Mock object for the reference PathScan object
         refPsObj = um.Mock(spec_set=PathScan, name='mock_refPathScan')
         refFile01Info = {'name':'file_01', 'dir':1,'hash':'00000000000000000000000000000000'}
@@ -288,15 +293,19 @@ class TestHandler(unittest.TestCase):
         refLfPropertyMock = um.PropertyMock(return_value=(refFile01Info,refFile01bisInfo))
         type(refPsObj).libFiles = refLfPropertyMock
         type(refPsObj).path = um.PropertyMock(return_value='Return from property path of Mock object named \'mock_refPathScan\'')
-        refPsObj.getRelPath = um.Mock(side_effect=lambda dirId: getRelPath(dirId,{1:'Path_A',2:'Path_B'}))
+        refPsObj.getRelPath = um.Mock(side_effect=lambda dirId: self.getRelPath(dirId,{1:'Path_A',2:'Path_B'}))
 
         # Mock object for the compared PathScan object
         compPsObj = um.Mock(spec_set=PathScan, name='mock_compPathScan')
         compFile01Info = {'name':'file_01', 'dir':1,'hash':'00000000000000000000000000000000'}
         compFile01bisInfo = {'name':'file_01bis_misnamed', 'dir':2,'hash':'00000000000000000000000000000000'}
         type(compPsObj).path = um.PropertyMock(return_value='Return from property path of Mock object named \'mock_compPathScan\'')
-        compPsObj.getRelPath = um.Mock(side_effect=lambda dirId: getRelPath(dirId,{1:'Path_C',2:'Path_D'}))
-        compPsObj.matchHash = um.Mock(side_effect=lambda hashNum: [compFile01Info,compFile01bisInfo])
+        compPsObj.getRelPath = um.Mock(side_effect=lambda dirId: self.getRelPath(dirId,{1:'Path_C',2:'Path_D'}))
+        hdict = {\
+        '00000000000000000000000000000000':[compFile01Info,compFile01bisInfo],}
+        compPsObj.matchHash = um.Mock(side_effect=lambda num: self.matchHash(hashNum=num, hashDict=hdict))
+
+        # compPsObj.matchHash = um.Mock(side_effect=lambda hashNum: [compFile01Info,compFile01bisInfo])
 
         #------------------------ C R E A T I O N   &   O P E R A T I O N S ------------------------
 
@@ -329,15 +338,84 @@ class TestHandler(unittest.TestCase):
 
         os.unlink(filepath)
 
+    def test_missing(self):
+        """
+        [REF]:
+        Path_A
+        |_file_01
+        Path_B
+        |_file_02
+        |_file_04
+        file_03
+        [COMP]:
+        Path_A
+        |_file_01
+        Path_B
+        |_file_02
+        file_03
+        """
 
-    # def test_actions(self):
-    #
-    #     txtDescription = TestHandler.hdlObj.actions(view='txt')
-    #
-    #     with open('resources/test_compare.test_actions.txt','r') as buffRder:
-    #         refDescription = buffRder.readlines()
-    #
-    #     self.assertEqual(refDescription,txtDescription)
+        # Mock object for the reference PathScan object
+        refPsObj = um.Mock(spec_set=PathScan, name='mock_refPathScan')
+        refFilesInfo = [\
+        {'name':'file_01', 'dir':1,'hash':'00000000000000000000000000000000'},
+        {'name':'file_02', 'dir':2,'hash':'0000000000000000000000000000000F'},
+        {'name':'file_03', 'dir':0,'hash':'000000000000000000000000000000FF'},
+        {'name':'file_04', 'dir':2,'hash':'00000000000000000000000000000FFF'}]
+        refLfPropertyMock = um.PropertyMock(return_value=refFilesInfo)
+        type(refPsObj).libFiles = refLfPropertyMock
+        refPsObj.getRelPath = um.Mock(side_effect=lambda dirId: self.getRelPath(dirId,{0:'',1:'Path_A',2:'Path_B'}))
+
+        # Mock object for the compared PathScan object
+        compPsObj = um.Mock(spec_set=PathScan, name='mock_compPathScan')
+        refFilesInfo = [\
+        {'name':'file_01', 'dir':1,'hash':'00000000000000000000000000000000'},
+        {'name':'file_02', 'dir':2,'hash':'0000000000000000000000000000000F'},
+        {'name':'file_03', 'dir':0,'hash':'000000000000000000000000000000FF'}]
+        compPsObj.getRelPath = um.Mock(side_effect=lambda dirId: self.getRelPath(dirId,{0:'',1:'Path_A',2:'Path_B'}))
+        hdict = {\
+        '00000000000000000000000000000000':[refFilesInfo[0],],
+        '0000000000000000000000000000000F':[refFilesInfo[1],],
+        '000000000000000000000000000000FF':[refFilesInfo[2]]}
+        compPsObj.matchHash = um.Mock(side_effect= lambda num: self.matchHash(hashNum=num, hashDict=hdict))
+
+        #------------------------ C R E A T I O N   &   O P E R A T I O N S ------------------------
+
+        # Create object 'handlerObj' from class compare.Handler to be tested
+        handlerObj = Handler(refPsObj, compPsObj)
+
+        # Get the 'compare.Misnaming' object created by 'handlerObj'
+        missing = sorted(handlerObj.missing, key=(lambda m: m.refName))
+
+        #----------------------------------- A S S E R T I O N S -----------------------------------
+
+        # Check calls to Mock object 'refPsObj' and PropertyMock object 'refLfPropertyMock'
+        getRelPathCalls = [um.call(0), um.call(1), um.call(2)]
+        refPsObj.getRelPath.assert_has_calls(getRelPathCalls, any_order=True)
+        refLfPropertyMock.assert_called_with()
+
+        # Check calls to Mock object 'compPsObj' and PropertyMock object 'compLfPropertyMock'
+        compPsObj.getRelPath.assert_has_calls(getRelPathCalls, any_order=True)
+        matchHashCalls = [um.call('00000000000000000000000000000000'), um.call('0000000000000000000000000000000F'), um.call('000000000000000000000000000000FF')]
+        compPsObj.matchHash.assert_has_calls(matchHashCalls, any_order=True)
+        self.assertEqual(compPsObj.matchHash.call_count,4)
+
+        # Assertion on the properties of the 'compare.Misnaming' object
+        self.assertEqual(len(missing),1)
+
+        self.assertEqual(missing[0].refName, 'file_04')
+        self.assertEqual(missing[0].refPath, 'Path_B')
+        #MISSING: [REF]/Path_B/file_06
+        # Testing output of method compare.Misnaming.action()
+        actionMessage = ['#MISSING: [REF]/Path_B/file_04 in [COMP]\n']
+        self.assertEqual(missing[0].action(), actionMessage)
+
+        # Testing output of method compare.Misnaming.shell()
+        shellCommands = ['# Missing file $REF/Path_B/file_04 in $COMP\n',
+        'cp $REF/Path_B/file_04 $COMP/Path_B/file_04\n']
+        self.assertEqual(missing[0].shell(), shellCommands)
+
+
 
 if __name__=='__main__':
 

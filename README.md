@@ -8,27 +8,29 @@ I have a big collection of digital books and several versions of it. The fact is
 At some point I need to get a unique version of my digital library that contains every file from every library classified in the same paths. I also do not want any duplication of my files (especially those with different names). That is where **whamdil** helps.
 
 ## Install
-The application have been developped on Linux and only tested on it. A windows version may come later. No installation kit is available yet (to be done *asap*) so for the moment just clone the directory in the place of your choice and add the `whamdil/` subdirectory to your `PATH` environement variable (Linux). Give execution rights to script `whamdil.py`:  
-`$> chmod a+x whamdil.py`  
-
-Run this python script in a *shell* (*e.g.* Bourne shell). For getting help, type:
+The application is being developped on Linux and was only tested on it. A windows version may come later.  
+In order to install *What a mess in my digital libraries!*, copy the content of the repository to your installation path. Change directory to this path and run *GNU make*:
 ```
-$> whamdil.py -h
-usage: whamdil.py [-h] refPath [compPath]
+$> make
+```
+An executable `./scripts/whamdil` whill be created and unit tests of the source will be run. The absolute path to directory `./scripts/` may be added to the `PATH` environement variable. Then run this script in the *shell*. For getting help, type:
+```
+$> whamdil -h
+usage: whamdil [-h] refPath [compPath]
 
 Compare and help you reorganize the multiple versions of your digital
-libraries
+libraries.
 
 positional arguments:
   refPath     Path of reference
-  compPath    Path to compare to the reference
+  compPath    Path to be compared to the reference
 
 optional arguments:
   -h, --help  show this help message and exit
 ```
 
 ## Running tests
-This application is developped with *test driven approach*. Tests are available in the `tests/unittests/` directory. They use the Python `unittest` pacakge.
+This application is being developped with *test driven approach*. Tests are available in the `tests/unittests/` directory. They use the Python `unittest` pacakge.
 ```
 $> cd tests/unittests/
 $> python test_ptree.py
