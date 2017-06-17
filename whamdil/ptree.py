@@ -70,8 +70,11 @@ class PathScan:
         self.__libFiles = []
 
         self.__idCount = 0
-        # Scan the tree of directories in the path
+
         def scanPathTree(scanIter, dirName=None, parId=None):
+            """
+            Scan recursively the tree of directories in the path
+            """
 
             # list with elements of the iterator scanIter, used for generating an multiple copies iterators
             scanSource = list(scanIter)
@@ -95,10 +98,13 @@ class PathScan:
         scanPathTree(scanIter=os.scandir(self.path))
 
 
-        # Save sanned information in a file inside the scanned path
+        # Save scanned information in a file inside the scanned path
         self.__save()
 
     def __json(self):
+        """
+        Read scan data from a JSON file.
+        """
         with open(self.saveFilePath,'rb') as buffRder:
             output = buffRder.read().decode('UTF-8')
         savedData = json.loads(output)
@@ -109,14 +115,23 @@ class PathScan:
 
 
     def __save(self):
+        """
+        Save main data from the current PathScan instance in a JSON file.
+        """
         jsonFormatted = json.dumps({'directories':self.directories,'libFiles':self.libFiles})
         with open(self.saveFilePath,'w') as txtIOWrper:
             txtIOWrper.write(jsonFormatted)
 
     def matchHash(self, hashNum):
+        """
+        Get files matching the MD5 hash number 'hashNum'.
+        """
         return [info for info in self.libFiles if info['hash']==hashNum]
 
     def getRelPath(self,dirId):
+        """
+        Get the path (relative to the main scanned path) of the directory whith ID number 'dirId'.
+        """
         def getDirDict(dirId):
             for d in self.directories:
                 if d['id']==dirId:

@@ -27,6 +27,7 @@ def comparePaths(refPath,compPath):
     compPathScanObj = PathScan(compPath)
     handlerObj = Handler(refPathScanObj,compPathScanObj)
     handlerObj.describe()
+    handlerObj.shell()
 
 
 

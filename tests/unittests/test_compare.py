@@ -62,6 +62,7 @@ class TestHandler(unittest.TestCase):
         compFile01Info = {'name':'file_01_misnamed', 'dir':1,'hash':'00000000000000000000000000000000'}
         compPsObj.getRelPath = um.Mock(side_effect=lambda dirId:'Path_A')
         compPsObj.matchHash = um.Mock(side_effect=lambda hashNum: [compFile01Info,])
+        type(compPsObj).libFiles = um.PropertyMock(return_value=None) # unused --> the 'new files' detection
 
         #------------------------ C R E A T I O N   &   O P E R A T I O N S ------------------------
 
@@ -128,6 +129,7 @@ class TestHandler(unittest.TestCase):
         compFile01bisInfo = {'name':'file_01bis_misnamed', 'dir':0,'hash':'00000000000000000000000000000000'}
         compPsObj.getRelPath = um.Mock(side_effect=lambda dirId: self.getRelPath(dirId,{0:'',1:'Path_A'}))
         compPsObj.matchHash = um.Mock(side_effect=lambda hashNum: [compFile01Info,compFile01bisInfo])
+        type(compPsObj).libFiles = um.PropertyMock(return_value=None) # unused --> the 'new files' detection
 
         #------------------------ C R E A T I O N   &   O P E R A T I O N S ------------------------
 
@@ -166,9 +168,11 @@ class TestHandler(unittest.TestCase):
         self.assertEqual(misnaming[1].action(), actionMessage)
 
         # Testing output of method compare.Misnaming.shell()
-        shellCommands = ['mv $COMP/Path_A/file_01_misnamed $COMP/Path_A/file_01\n',]
+        shellCommands = ['# Misnaming $REF/Path_A/file_01\n',
+        'mv $COMP/Path_A/file_01_misnamed $COMP/Path_A/file_01\n',]
         self.assertEqual(misnaming[0].shell(), shellCommands)
-        shellCommands = ['mv $COMP/file_01bis_misnamed $COMP/file_01bis\n',]
+        shellCommands = ['# Misnaming $REF/file_01bis\n',
+        'mv $COMP/file_01bis_misnamed $COMP/file_01bis\n',]
         self.assertEqual(misnaming[1].shell(), shellCommands)
 
 
@@ -227,6 +231,7 @@ class TestHandler(unittest.TestCase):
         '00000000000000000000000000000000':[compFile01Info,compFile01bisInfo],
         'FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF':[compFile02Info,]}
         compPsObj.matchHash = um.Mock(side_effect= lambda num: self.matchHash(hashNum=num, hashDict=hdict))
+        type(compPsObj).libFiles = um.PropertyMock(return_value=None) # unused --> the 'new files' detection
 
 
         #------------------------ C R E A T I O N   &   O P E R A T I O N S ------------------------
@@ -304,6 +309,7 @@ class TestHandler(unittest.TestCase):
         hdict = {\
         '00000000000000000000000000000000':[compFile01Info,compFile01bisInfo],}
         compPsObj.matchHash = um.Mock(side_effect=lambda num: self.matchHash(hashNum=num, hashDict=hdict))
+        type(compPsObj).libFiles = um.PropertyMock(return_value=None) # unused --> the 'new files' detection
 
         # compPsObj.matchHash = um.Mock(side_effect=lambda hashNum: [compFile01Info,compFile01bisInfo])
 
@@ -368,16 +374,17 @@ class TestHandler(unittest.TestCase):
 
         # Mock object for the compared PathScan object
         compPsObj = um.Mock(spec_set=PathScan, name='mock_compPathScan')
-        refFilesInfo = [\
+        compFileInfo = [\
         {'name':'file_01', 'dir':1,'hash':'00000000000000000000000000000000'},
         {'name':'file_02', 'dir':2,'hash':'0000000000000000000000000000000F'},
         {'name':'file_03', 'dir':0,'hash':'000000000000000000000000000000FF'}]
         compPsObj.getRelPath = um.Mock(side_effect=lambda dirId: self.getRelPath(dirId,{0:'',1:'Path_A',2:'Path_B'}))
         hdict = {\
-        '00000000000000000000000000000000':[refFilesInfo[0],],
-        '0000000000000000000000000000000F':[refFilesInfo[1],],
-        '000000000000000000000000000000FF':[refFilesInfo[2]]}
+        '00000000000000000000000000000000':[compFileInfo[0],],
+        '0000000000000000000000000000000F':[compFileInfo[1],],
+        '000000000000000000000000000000FF':[compFileInfo[2],]}
         compPsObj.matchHash = um.Mock(side_effect= lambda num: self.matchHash(hashNum=num, hashDict=hdict))
+        type(compPsObj).libFiles = um.PropertyMock(return_value=None) # unused --> the 'new files' detection
 
         #------------------------ C R E A T I O N   &   O P E R A T I O N S ------------------------
 
@@ -414,6 +421,88 @@ class TestHandler(unittest.TestCase):
         shellCommands = ['# Missing file $REF/Path_B/file_04 in $COMP\n',
         'cp $REF/Path_B/file_04 $COMP/Path_B/file_04\n']
         self.assertEqual(missing[0].shell(), shellCommands)
+
+    def test_new(self):
+        """
+        [REF]:
+        Path_A
+        |_file_01
+        Path_B
+        |_file_02
+        file_03
+        [COMP]:
+        Path_A
+        |_file_01
+        Path_B
+        |_file_02
+        |_file_04
+        file_03
+        """
+
+        # Mock object for the reference PathScan object
+        refPsObj = um.Mock(spec_set=PathScan, name='mock_refPathScan')
+        refFilesInfo = [\
+        {'name':'file_01', 'dir':1,'hash':'00000000000000000000000000000000'},
+        {'name':'file_02', 'dir':2,'hash':'0000000000000000000000000000000F'},
+        {'name':'file_03', 'dir':0,'hash':'000000000000000000000000000000FF'}]
+        type(refPsObj).libFiles = um.PropertyMock(return_value=refFilesInfo)
+        refPsObj.getRelPath = um.Mock(side_effect=lambda dirId: self.getRelPath(dirId,{0:'',1:'Path_A',2:'Path_B'}))
+        refHdict = {\
+        '00000000000000000000000000000000':[refFilesInfo[0],],
+        '0000000000000000000000000000000F':[refFilesInfo[1],],
+        '000000000000000000000000000000FF':[refFilesInfo[2],]}
+        refPsObj.matchHash = um.Mock(side_effect= lambda num: self.matchHash(hashNum=num, hashDict=refHdict))
+
+        # Mock object for the compared PathScan object
+        compPsObj = um.Mock(spec_set=PathScan, name='mock_compPathScan')
+        compFileInfo = [\
+        {'name':'file_01', 'dir':1,'hash':'00000000000000000000000000000000'},
+        {'name':'file_02', 'dir':2,'hash':'0000000000000000000000000000000F'},
+        {'name':'file_03', 'dir':0,'hash':'000000000000000000000000000000FF'},
+        {'name':'file_04', 'dir':2,'hash':'00000000000000000000000000000FFF'}]
+        type(compPsObj).libFiles = um.PropertyMock(return_value=compFileInfo)
+        compPsObj.getRelPath = um.Mock(side_effect=lambda dirId: self.getRelPath(dirId,{0:'',1:'Path_A',2:'Path_B'}))
+        compHdict = {\
+        '00000000000000000000000000000000':[compFileInfo[0],],
+        '0000000000000000000000000000000F':[compFileInfo[1],],
+        '000000000000000000000000000000FF':[compFileInfo[2],],
+        '00000000000000000000000000000FFF':[compFileInfo[3],]}
+        compPsObj.matchHash = um.Mock(side_effect= lambda num: self.matchHash(hashNum=num, hashDict=compHdict))
+
+        #------------------------ C R E A T I O N   &   O P E R A T I O N S ------------------------
+
+        # Create object 'handlerObj' from class compare.Handler to be tested
+        handlerObj = Handler(refPsObj, compPsObj)
+
+        # Get the 'compare.Misnaming' object created by 'handlerObj'
+        news = sorted(handlerObj.new, key=(lambda m: m.compName))
+
+        #----------------------------------- A S S E R T I O N S -----------------------------------
+
+        # Check calls to Mock object 'refPsObj' and PropertyMock object 'refLfPropertyMock'
+        getRelPathCalls = [um.call(0), um.call(1), um.call(2)]
+        refPsObj.getRelPath.assert_has_calls(getRelPathCalls, any_order=True)
+
+        # Check calls to Mock object 'compPsObj' and PropertyMock object 'compLfPropertyMock'
+        matchHashCalls = [um.call('00000000000000000000000000000000'), um.call('0000000000000000000000000000000F'),
+        um.call('000000000000000000000000000000FF'), um.call('00000000000000000000000000000FFF')]
+        refPsObj.getRelPath.assert_has_calls(getRelPathCalls, any_order=True)
+        self.assertEqual(refPsObj.matchHash.call_count,4)
+
+        # Assertion on the properties of the 'compare.News' object
+        self.assertEqual(len(news),1)
+
+        self.assertEqual(news[0].compName, 'file_04')
+        self.assertEqual(news[0].compPath, 'Path_B')
+
+        # Testing output of method compare.Misnaming.action()
+        actionMessage = ['#NEW: [COMP]/Path_B/file_04\n']
+        self.assertEqual(news[0].action(), actionMessage)
+
+        # Testing output of method compare.Misnaming.shell()
+        shellCommands = ['# New file $COMP/Path_B/file_04\n',
+        'cp $COMP/Path_B/file_04 $REF/Path_B/file_04\n']
+        self.assertEqual(news[0].shell(), shellCommands)
 
 
 
