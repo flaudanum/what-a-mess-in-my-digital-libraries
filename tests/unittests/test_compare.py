@@ -487,7 +487,6 @@ class TestHandler(unittest.TestCase):
         matchHashCalls = [um.call('00000000000000000000000000000000'), um.call('0000000000000000000000000000000F'),
         um.call('000000000000000000000000000000FF'), um.call('00000000000000000000000000000FFF')]
         refPsObj.getRelPath.assert_has_calls(getRelPathCalls, any_order=True)
-        self.assertEqual(refPsObj.matchHash.call_count,4)
 
         # Assertion on the properties of the 'compare.News' object
         self.assertEqual(len(news),1)
@@ -503,6 +502,75 @@ class TestHandler(unittest.TestCase):
         shellCommands = ['# New file $COMP/Path_B/file_04\n',
         'cp $COMP/Path_B/file_04 $REF/Path_B/file_04\n']
         self.assertEqual(news[0].shell(), shellCommands)
+
+
+    def test_redundancy(self):
+        """
+        [REF]:
+        Path_A
+        |_file_01
+        |_file_01a (=file_01)
+        Path_B
+        |_file_01 (=file_01)
+        |_file_02
+        file_01b (=file_01)
+        file_03
+        [COMP]
+        """
+
+        # Mock object for the reference PathScan object
+        refPsObj = um.Mock(spec_set=PathScan, name='mock_refPathScan')
+        refFilesInfo = [\
+        {'name':'file_01',  'dir':1,'hash':'00000000000000000000000000000000'},
+        {'name':'file_01a', 'dir':1,'hash':'00000000000000000000000000000000'},
+        {'name':'file_01',  'dir':2,'hash':'00000000000000000000000000000000'},
+        {'name':'file_02',  'dir':2,'hash':'0000000000000000000000000000000F'},
+        {'name':'file_01b', 'dir':0,'hash':'00000000000000000000000000000000'},
+        {'name':'file_03',  'dir':0,'hash':'000000000000000000000000000000FF'}]
+        type(refPsObj).libFiles = um.PropertyMock(return_value=refFilesInfo)
+        refPsObj.getRelPath = um.Mock(side_effect=lambda dirId: self.getRelPath(dirId,{0:'',1:'Path_A',2:'Path_B'}))
+        refHdict = {\
+        '00000000000000000000000000000000':[refFilesInfo[0],refFilesInfo[1],refFilesInfo[2],refFilesInfo[4]],
+        '0000000000000000000000000000000F':[refFilesInfo[3],],
+        '000000000000000000000000000000FF':[refFilesInfo[5],]}
+        refPsObj.matchHash = um.Mock(side_effect= lambda num: self.matchHash(hashNum=num, hashDict=refHdict))
+
+        # Mock object for the compared PathScan object
+        compPsObj = um.Mock(spec_set=PathScan, name='mock_compPathScan')
+        compFileInfo = []
+        type(compPsObj).libFiles = um.PropertyMock(return_value=compFileInfo)
+        compPsObj.getRelPath = um.Mock(side_effect=lambda dirId: self.getRelPath(dirId,{0:''}))
+        compHdict = dict()
+        compPsObj.matchHash = um.Mock(side_effect= lambda num: self.matchHash(hashNum=num, hashDict=compHdict))
+
+        #------------------------ C R E A T I O N   &   O P E R A T I O N S ------------------------
+
+        # Create object 'handlerObj' from class compare.Handler to be tested
+        handlerObj = Handler(refPsObj, compPsObj)
+
+        # Get the 'compare.Misnaming' object created by 'handlerObj'
+        redundancies = sorted(handlerObj.redundancy, key=(lambda r: r.hashVal))
+
+        #----------------------------------- A S S E R T I O N S -----------------------------------
+
+        # Assertion on the properties of the 'compare.News' object
+        self.assertEqual(len(redundancies),1)
+
+        self.assertEqual(redundancies[0].hashVal, '00000000000000000000000000000000')
+        files = [('Path_A','file_01'),('Path_A','file_01a'),('Path_B','file_01'),('','file_01b')]
+        self.assertEqual(redundancies[0].files, files)
+
+        # Testing output of method compare.Misnaming.action()
+        actionMessage = ['#REDUNDANCY:\n',
+        '  * [REF]/Path_A/file_01\n',
+        '  * [REF]/Path_A/file_01a\n',
+        '  * [REF]/Path_B/file_01\n',
+        '  * [REF]/file_01b\n']
+        self.assertEqual(redundancies[0].action(), actionMessage)
+
+        # Testing output of method compare.Misnaming.shell()
+        shellCommands = ['# Redundancy: manual operation must be considered\n',]
+        self.assertEqual(redundancies[0].shell(), shellCommands)
 
 
 

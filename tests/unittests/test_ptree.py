@@ -23,6 +23,7 @@ from ptree import *
 # | |_file_03
 # |_file_04
 # Path_B
+# |_file_01
 # |_file_05
 # |_file_06
 # file_07
@@ -46,8 +47,8 @@ class TestPathScan(unittest.TestCase):
 
         # Reading MD5 hash numbers of files in 'path01' provided by the shell tool md5sum
         with open('md5_path01.txt','r') as ioObj:
-            formatMD5res = lambda pair:( pair[1].split('/')[-1], pair[0])
-            cls.refMD5 = dict([formatMD5res(line.split(None)) for line in ioObj])
+            formatMD5res = lambda pair:( pair[1].split('/')[-1], pair[0] )
+            cls.refMD5 = [formatMD5res(line.split(None)) for line in ioObj]
 
         cls.refDirectories = [\
         {'id':1,'par':0,'name':'Path_A'},
@@ -57,18 +58,28 @@ class TestPathScan(unittest.TestCase):
         {'id':5,'par':0,'name':'Path_B'}
         ]
 
-        refFilesDir = dict((\
-        ('file_01',2),
-        ('file_02',4),
-        ('file_03',3),
-        ('file_04',1),
-        ('file_05',5),
-        ('file_06',5),
-        ('file_07',0),
-        ('file_08',0)
-        ))
-        cls.refLibFiles = [ {'name':k,'dir':refFilesDir[k],'hash':cls.refMD5[k]} for k in sorted(cls.refMD5.keys())]
+        refFilesDir = (\
+        ('file_01', 2),
+        ('file_02', 4),
+        ('file_03', 3),
+        ('file_04', 1),
+        ('file_01', 5),
+        ('file_05', 5),
+        ('file_06', 5),
+        ('file_07', 0),
+        ('file_08', 0) )
+        cls.refLibFiles = [ {'name':pair[0],'dir':refFilesDir[k][1],'hash':pair[1]} for k,pair in enumerate(cls.refMD5)]
 
+        # (file_01, 2), 0
+        # (file_02, 4), 1
+        # (file_03, 3), 2
+        # (file_04, 1), 3
+        # (file_01, 5), 4
+        # (file_05, 5), 5
+        # (file_06, 5), 6
+        # (file_07, 0), 7
+        # (file_08, 0)  8
+        cls.refLibFiles = [ cls.refLibFiles[k] for k in (7,8,3,0,2,1,4,5,6) ]
 
     @classmethod
     def tearDownClass(cls):
@@ -88,7 +99,7 @@ class TestPathScan(unittest.TestCase):
             self.assertEqual(ref,test)
 
     def test_libFiles(self):
-        libFiles = sorted(TestPathScan.pTreeObj.libFiles, key=(lambda d: d['name']))
+        libFiles = TestPathScan.pTreeObj.libFiles
 
         self.assertEqual(TestPathScan.refLibFiles,libFiles)
 
@@ -115,10 +126,11 @@ class TestPathScan(unittest.TestCase):
         savedData = json.loads(output)
 
         directories = savedData['directories']
-        libFiles = sorted(savedData['libFiles'], key=(lambda d: d['name']))
+        libFiles = savedData['libFiles']
 
         for (ref,test) in zip(TestPathScan.refDirectories,directories):
             self.assertEqual(ref,test)
+
 
         self.assertEqual(TestPathScan.refLibFiles,libFiles)
 

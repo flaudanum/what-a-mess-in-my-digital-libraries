@@ -8,6 +8,7 @@
 # | |_file_03
 # |_file_04
 # Path_B
+# |_file_01
 # |_file_05
 # |_file_06
 # file_07
@@ -36,6 +37,7 @@ mkdir Path_B
 # Creation of a file with a list of MD5 hash values of files
 
 MD5LOGFILE=../md5_path01.txt
+rm -f $MD5LOGFILE
 touch $MD5LOGFILE
 
 
@@ -43,6 +45,7 @@ touch $MD5LOGFILE
 
 # file_01
 head -c 256000 /dev/urandom > Path_A/Path_AA/file_01
+cp -p Path_A/Path_AA/file_01 Path_B/file_01 
 md5sum Path_A/Path_AA/file_01 >> $MD5LOGFILE
 # file_02
 head -c 256000 /dev/urandom > Path_A/Path_AB/Path_ABA/file_02
@@ -53,6 +56,9 @@ md5sum Path_A/Path_AB/file_03 >> $MD5LOGFILE
 # file_04
 head -c 256000 /dev/urandom > Path_A/file_04
 md5sum Path_A/file_04 >> $MD5LOGFILE
+
+md5sum Path_B/file_01 >> $MD5LOGFILE
+
 # file_05
 head -c 256000 /dev/urandom > Path_B/file_05
 md5sum Path_B/file_05 >> $MD5LOGFILE
