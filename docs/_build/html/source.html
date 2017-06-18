@@ -1,0 +1,199 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Source code documentation &#8212; What a mess in my digital libraries! 0.1.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="What a mess in my digital libraries! 0.1.0 documentation" href="index.html" />
+    <link rel="prev" title="Description of test cases" href="tests/ptree.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="source-code-documentation">
+<h1>Source code documentation<a class="headerlink" href="#source-code-documentation" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="modules">
+<h2>Modules<a class="headerlink" href="#modules" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-ptree">
+<span id="module-ptree"></span><h3>Module <strong>ptree</strong><a class="headerlink" href="#module-ptree" title="Permalink to this headline">¶</a></h3>
+<p>This module provides class PathScan
+Compatibility: python 3.5 (required by os.DirEntry)</p>
+<dl class="class">
+<dt id="ptree.PathScan">
+<em class="property">class </em><code class="descclassname">ptree.</code><code class="descname">PathScan</code><span class="sig-paren">(</span><em>path</em>, <em>question=True</em><span class="sig-paren">)</span><a class="headerlink" href="#ptree.PathScan" title="Permalink to this definition">¶</a></dt>
+<dd><p>Abstraction for providing the data structure stemming from the scan of a path.</p>
+<dl class="method">
+<dt id="ptree.PathScan.getRelPath">
+<code class="descname">getRelPath</code><span class="sig-paren">(</span><em>dirId</em><span class="sig-paren">)</span><a class="headerlink" href="#ptree.PathScan.getRelPath" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the path (relative to the main scanned path) of the directory whith ID number &#8216;dirId&#8217;.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="ptree.PathScan.matchHash">
+<code class="descname">matchHash</code><span class="sig-paren">(</span><em>hashNum</em><span class="sig-paren">)</span><a class="headerlink" href="#ptree.PathScan.matchHash" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get files matching the MD5 hash number &#8216;hashNum&#8217;.</p>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="ptree.PathScan.md5sum">
+<em class="property">static </em><code class="descname">md5sum</code><span class="sig-paren">(</span><em>filePath</em><span class="sig-paren">)</span><a class="headerlink" href="#ptree.PathScan.md5sum" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the md5 sum of a file</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>filePath</strong> &#8211; path to the file</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">str</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-compare">
+<span id="module-compare"></span><h3>Module <strong>compare</strong><a class="headerlink" href="#module-compare" title="Permalink to this headline">¶</a></h3>
+<p>Compatibility: python 3.X</p>
+<dl class="class">
+<dt id="compare.Misnaming">
+<em class="property">class </em><code class="descclassname">compare.</code><code class="descname">Misnaming</code><span class="sig-paren">(</span><em>path</em>, <em>refName</em>, <em>compName</em><span class="sig-paren">)</span><a class="headerlink" href="#compare.Misnaming" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="compare.Misnaming.shell">
+<code class="descname">shell</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#compare.Misnaming.shell" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="compare.Misplacement">
+<em class="property">class </em><code class="descclassname">compare.</code><code class="descname">Misplacement</code><span class="sig-paren">(</span><em>refPath</em>, <em>refName</em>, <em>compFounds</em><span class="sig-paren">)</span><a class="headerlink" href="#compare.Misplacement" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="compare.Missing">
+<em class="property">class </em><code class="descclassname">compare.</code><code class="descname">Missing</code><span class="sig-paren">(</span><em>refPath</em>, <em>refName</em><span class="sig-paren">)</span><a class="headerlink" href="#compare.Missing" title="Permalink to this definition">¶</a></dt>
+<dd><p>Descriptive elements for files of the reference directory that are missing in the compared one</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="compare.New">
+<em class="property">class </em><code class="descclassname">compare.</code><code class="descname">New</code><span class="sig-paren">(</span><em>compPath</em>, <em>compName</em><span class="sig-paren">)</span><a class="headerlink" href="#compare.New" title="Permalink to this definition">¶</a></dt>
+<dd><p>Descriptive elements for files of the compared directory that are missing in the reference one</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="compare.Handler">
+<em class="property">class </em><code class="descclassname">compare.</code><code class="descname">Handler</code><span class="sig-paren">(</span><em>refPathScan</em>, <em>compPathScan</em><span class="sig-paren">)</span><a class="headerlink" href="#compare.Handler" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="compare.Handler.describe">
+<code class="descname">describe</code><span class="sig-paren">(</span><em>filepath='./whamdil.log'</em><span class="sig-paren">)</span><a class="headerlink" href="#compare.Handler.describe" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a log file providing a description of differences between the content of directories</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="compare.Handler.shell">
+<code class="descname">shell</code><span class="sig-paren">(</span><em>filepath='./whamdil.sh'</em><span class="sig-paren">)</span><a class="headerlink" href="#compare.Handler.shell" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a Bourne shell script file providing commands intending to even the directories</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Source code documentation</a><ul>
+<li><a class="reference internal" href="#modules">Modules</a><ul>
+<li><a class="reference internal" href="#module-ptree">Module <strong>ptree</strong></a></li>
+<li><a class="reference internal" href="#module-compare">Module <strong>compare</strong></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="tests/ptree.html" title="previous chapter">Description of test cases</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/source.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2017, Frédéric Laudarin.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.6</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
+      
+      |
+      <a href="_sources/source.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

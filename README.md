@@ -1,6 +1,5 @@
 # What a mess in my digital libraries!
 
-**(CURRENTLY IN DEVELOPMENT)**
 
 ## About
 *What a mess in my digital libraries!* (whamdil) is an application that I'm developing for re-organizing the several copies of my digital book libraries.  
@@ -36,3 +35,7 @@ $> cd tests/unittests/
 $> python test_ptree.py
 $> python test_compare.py
 ```
+
+## Code documentation
+
+More documentation about the code is available [HERE](./docs/_build/html/index.html).

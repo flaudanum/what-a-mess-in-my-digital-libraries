@@ -10,10 +10,11 @@ Contents
 --------
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 3
 
    design/index
    tests/index
+   source
 
 
 Indices and tables
