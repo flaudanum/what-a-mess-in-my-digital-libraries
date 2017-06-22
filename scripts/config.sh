@@ -24,6 +24,9 @@ sed "s@#PYTHON#@$PYTHON@" ./scripts/whamdil.template | sed "s@#HOME#@`pwd`@" > .
 chmod a+x ./scripts/whamdil
 echo "An executable script was created: `pwd`/scripts/whamdil"
 
+echo "Create a link to html documentation"
+ln -s `pwd`/docs/_build/html/index.html ./documentation.html
+
 echo "Run unit tests"
 cd $UNIT_TESTS
 $PYTHON test_ptree.py

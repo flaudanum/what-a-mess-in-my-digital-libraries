@@ -38,4 +38,4 @@ $> python test_compare.py
 
 ## Code documentation
 
-More documentation about the code is available [HERE](./docs/_build/html/index.html).
+More documentation about the code is available with the hmtl documentation available with `./documentation.html`.
