@@ -43,8 +43,8 @@
             
   <div class="section" id="list-of-tests">
 <h1>List of tests<a class="headerlink" href="#list-of-tests" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="unit-tests">
-<h2>Unit tests<a class="headerlink" href="#unit-tests" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="test-cases">
+<h2>Test cases<a class="headerlink" href="#test-cases" title="Permalink to this headline">¶</a></h2>
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="ptree.html">Description of test cases</a><ul>
@@ -52,6 +52,55 @@
 </ul>
 </li>
 </ul>
+</div>
+<div class="section" id="module-test_ptree">
+<span id="unit-tests"></span><h3>Unit tests<a class="headerlink" href="#module-test_ptree" title="Permalink to this headline">¶</a></h3>
+<p>Unit tests for module &#8216;ptree&#8217;
+Compatibility: python 3.5</p>
+<dl class="class">
+<dt id="test_ptree.TestPathScan">
+<em class="property">class </em><code class="descclassname">test_ptree.</code><code class="descname">TestPathScan</code><span class="sig-paren">(</span><em>methodName='runTest'</em><span class="sig-paren">)</span><a class="headerlink" href="#test_ptree.TestPathScan" title="Permalink to this definition">¶</a></dt>
+<dd><p>This TestCase subclasses test the constructor and methods of class ptree.PathScan</p>
+<dl class="classmethod">
+<dt id="test_ptree.TestPathScan.setUpClass">
+<em class="property">classmethod </em><code class="descname">setUpClass</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#test_ptree.TestPathScan.setUpClass" title="Permalink to this definition">¶</a></dt>
+<dd><p>This class method prepares common data used by test methods.</p>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="test_ptree.TestPathScan.tearDownClass">
+<em class="property">classmethod </em><code class="descname">tearDownClass</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#test_ptree.TestPathScan.tearDownClass" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tear down class method that remove the test case directories and the reference text file with hash numbers.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="test_ptree.TestPathScan.test_directories">
+<code class="descname">test_directories</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#test_ptree.TestPathScan.test_directories" title="Permalink to this definition">¶</a></dt>
+<dd><p>Test the PathScan.directories attribute</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="test_ptree.TestPathScan.test_getRelPath">
+<code class="descname">test_getRelPath</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#test_ptree.TestPathScan.test_getRelPath" title="Permalink to this definition">¶</a></dt>
+<dd><p>Test the PathScan.getRelPath() method</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="test_ptree.TestPathScan.test_libFiles">
+<code class="descname">test_libFiles</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#test_ptree.TestPathScan.test_libFiles" title="Permalink to this definition">¶</a></dt>
+<dd><p>Test the PathScan.libFiles attribute</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="test_ptree.TestPathScan.test_path">
+<code class="descname">test_path</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#test_ptree.TestPathScan.test_path" title="Permalink to this definition">¶</a></dt>
+<dd><p>Test the PathScan.path attribute</p>
+</dd></dl>
+
+</dd></dl>
+
+<span class="target" id="module-test_compare"></span><p>Unit tests for module &#8216;compare&#8217;
+Compatibility: python 3.X</p>
 </div>
 </div>
 </div>
@@ -65,7 +114,10 @@
   <h3><a href="../index.html">Table Of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">List of tests</a><ul>
-<li><a class="reference internal" href="#unit-tests">Unit tests</a></li>
+<li><a class="reference internal" href="#test-cases">Test cases</a><ul>
+<li><a class="reference internal" href="#module-test_ptree">Unit tests</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>

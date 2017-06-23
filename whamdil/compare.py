@@ -7,39 +7,72 @@ import os
 import unittest.mock
 
 class Handler:
+    """
+    Handler class the carries out the comparison between the directories of the libraries
 
+    :param refPathScan: Scan of the reference directory
+    :type refPathScan: ptree.PathScan
+    :param compPathScan: Scan of the directory to be compared to the reference
+    :type compPathScan: ptree.PathScan
+    """
 
     @property
     def refPathScan(self):
+        """
+        :returns: Scan of the reference directory
+        :rtype: ptree.PathScan
+        """
         return self.__refPathScan
 
     @property
     def compPathScan(self):
+        """
+        :returns: Scan of the directory to be compared to the reference
+        :rtype: ptree.PathScan
+        """
         return self.__compPathScan
 
     @property
     def misnaming(self):
+        """
+        :returns: Collection of Misnaming objects created during the construction
+        :rtypes: compare.Misnaming
+        """
         return self.__misnaming
 
     @property
     def misplacement(self):
+        """
+        :returns: Collection of Misplacement objects created during the construction
+        :rtypes: compare.Misplacement
+        """
         return self.__misplacement
 
     @property
     def missing(self):
+        """
+        :returns: Collection of Missing objects created during the construction
+        :rtypes: compare.Missing
+        """
         return self.__missing
 
     @property
     def new(self):
+        """
+        :returns: Collection of New objects created during the construction
+        :rtypes: compare.New
+        """
         return self.__new
 
     @property
     def redundancy(self):
+        """
+        :returns: Collection of Redundancy objects created during the construction
+        :rtypes: compare.Redundancy
+        """
         return self.__redundancy
 
     def __init__(self, refPathScan, compPathScan):
-        """
-        """
 
         self.__refPathScan = refPathScan
         self.__compPathScan = compPathScan
@@ -102,6 +135,9 @@ class Handler:
     def describe(self,filepath='./whamdil.log'):
         """
         Create a log file providing a description of differences between the content of directories
+
+        :param filepath: Path to the logfile (default=``./whamdil.log``)
+        :type filepath: str
         """
         text = list()
         text.append('[REF]: {0}\n'.format(self.refPathScan.path))
@@ -141,6 +177,9 @@ class Handler:
     def shell(self,filepath='./whamdil.sh'):
         """
         Create a Bourne shell script file providing commands intending to even the directories
+
+        :param filepath: Path to the shell script (default=``./whamdil.sh``)
+        :type filepath: str
         """
         text = list()
         text.append('# Path to directories\n')
@@ -184,6 +223,14 @@ class Handler:
 
 class Misnaming:
     """
+    Represents a file in the compared directory that has the proper relative path but is misnamed.
+
+    :param path: relative path of the files
+    :type path: str
+    :param refName: name of the file in the reference directory
+    :type refName: str
+    :param compName: name of the minsnamed file in the compared directory
+    :type compName: str
     """
     @property
     def path(self):
@@ -206,6 +253,12 @@ class Misnaming:
         return 'Misnaming(path=\'{path}\',refName=\'{ref}\',compName=\'{comp}\')'.format(path=self.path,ref=self.refName,comp=self.compName)
 
     def action(self,form='text'):
+        """
+        Produce a text logfile with a description of the action to perform in order to make both paths even
+
+        :returns: content of the file
+        :rtype: list(str)
+        """
         if form=='text':
             return self.__actionText()
         else:
@@ -220,6 +273,10 @@ class Misnaming:
 
     def shell(self):
         """
+        Produce the shell script content
+
+        :returns: content of the file
+        :rtype: list(str)
         """
         fp = lambda path: '' if path=='' else '/'+path # Format Path for dealing with root directory case
         command = ['# Misnaming $REF{0}/{1}\n'.format(fp(self.path),self.refName),]
@@ -231,6 +288,15 @@ class Misnaming:
 
 class Misplacement:
     """
+    Represents a file in the compared directory that is placed in a different path from an identical file found in the reference directory.
+    refPath,refName,compFounds
+
+    :param refPath: relative path of the reference file
+    :type path: str
+    :param refName: name of the file in the reference directory
+    :type refName: str
+    :param compFounds: files in the compared directory that are misplaced [(path,filename),...]
+    :type compFounds:  list( (str,str) )
     """
 
     @property
@@ -257,6 +323,12 @@ class Misplacement:
         format(refPath=self.refPath,refName=self.refName,compFounds=str(self.compFounds))
 
     def action(self,form='text'):
+        """
+        Produce a text logfile with a description of the action to perform in order to make both paths even
+
+        :returns: content of the file
+        :rtype: list(str)
+        """
         if form=='text':
             return self.__actionText()
         else:
@@ -270,6 +342,12 @@ class Misplacement:
         return message
 
     def shell(self):
+        """
+        Produce the shell script content
+
+        :returns: content of the file
+        :rtype: list(str)
+        """
         fp = lambda path: '' if path=='' else '/'+path # Format Path for dealing with root directory case
         command = ['# Misplaced copies of [REF]{0}/{1}\n'.format(fp(self.refPath),self.refName),]
         command.append('mv $COMP{0}/{1} $COMP{2}/{3}\n'.format(fp(self.compFounds[0][0]),self.compFounds[0][1],fp(self.refPath),self.refName))
@@ -279,7 +357,12 @@ class Misplacement:
 
 class Missing:
     """
-    Descriptive elements for files of the reference directory that are missing in the compared one
+    Descriptive elements for files of the reference directory that are missing in the compared one.
+
+    :param refPath: relative path in the reference directory
+    :type refPath: str
+    :param refName: name of the missing file
+    :type refName: str
     """
 
     @property
@@ -301,6 +384,12 @@ class Missing:
 
 
     def action(self,form='text'):
+        """
+        Produce a text logfile with a description of the action to perform in order to make both paths even
+
+        :returns: content of the file
+        :rtype: list(str)
+        """
         if form=='text':
             return self.__actionText()
         else:
@@ -312,6 +401,12 @@ class Missing:
         return message
 
     def shell(self):
+        """
+        Produce the shell script content
+
+        :returns: content of the file
+        :rtype: list(str)
+        """
         fp = lambda path: '' if path=='' else '/'+path # Format Path for dealing with root directory case
         command = ['# Missing file $REF{0}/{1} in $COMP\n'.format(fp(self.refPath),self.refName),]
         command.append('cp $REF{0}/{1} $COMP{0}/{1}\n'.format(fp(self.refPath),self.refName))
@@ -320,6 +415,11 @@ class Missing:
 class New:
     """
     Descriptive elements for files of the compared directory that are missing in the reference one
+
+    :param compPath: relative path in the compared directory
+    :type compPath: str
+    :param compName: name of the new file
+    :type compName: str
     """
 
     @property
@@ -341,6 +441,12 @@ class New:
 
 
     def action(self,form='text'):
+        """
+        Produce a text logfile with a description of the action to perform in order to make both paths even
+
+        :returns: content of the file
+        :rtype: list(str)
+        """
         if form=='text':
             return self.__actionText()
         else:
@@ -352,12 +458,26 @@ class New:
         return message
 
     def shell(self):
+        """
+        Produce the shell script content
+
+        :returns: content of the file
+        :rtype: list(str)
+        """
         fp = lambda path: '' if path=='' else '/'+path # Format Path for dealing with root directory case
         command = ['# New file $COMP{0}/{1}\n'.format(fp(self.compPath),self.compName),]
         command.append('cp $COMP{0}/{1} $REF{0}/{1}\n'.format(fp(self.compPath),self.compName))
         return command
 
 class Redundancy:
+    """
+    Descriptive elements for files that are redundant in the reference directory
+
+    :param hashVal: MD5 hash number of the redundant files (lower case hexadecimal)
+    :type hashVal: str
+    :param files: Collection of information on the redundant files  [(path,filename),...]
+    :type files:  list( (str,str) )
+    """
 
     @property
     def hashVal(self):
@@ -382,6 +502,12 @@ class Redundancy:
         return 'Redundancy(hashVal=\'{hashVal}\',files=\'{files}'.format(hashVal=self.hashVal, files=str(self.files))
 
     def action(self,form='text'):
+        """
+        Produce a text logfile with a description of the action to perform in order to make both paths even
+
+        :returns: content of the file
+        :rtype: list(str)
+        """
         if form=='text':
             return self.__actionText()
         else:
@@ -395,6 +521,12 @@ class Redundancy:
         return message
 
     def shell(self):
+        """
+        Produce the shell script content
+
+        :returns: content of the file
+        :rtype: list(str)
+        """
         fp = lambda path: '' if path=='' else '/'+path # Format Path for dealing with root directory case
         command = ['# Redundancy: manual operation must be considered\n',]
         return command

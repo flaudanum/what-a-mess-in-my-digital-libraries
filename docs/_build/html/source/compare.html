@@ -1,0 +1,662 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Module compare &#8212; What a mess in my digital libraries! 0.1.0 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="What a mess in my digital libraries! 0.1.0 documentation" href="../index.html" />
+    <link rel="up" title="Source code documentation" href="index.html" />
+    <link rel="prev" title="Module ptree" href="ptree.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-compare">
+<span id="module-compare"></span><h1>Module <strong>compare</strong><a class="headerlink" href="#module-compare" title="Permalink to this headline">¶</a></h1>
+<p>Compatibility: python 3.X</p>
+<dl class="class">
+<dt id="compare.Handler">
+<em class="property">class </em><code class="descclassname">compare.</code><code class="descname">Handler</code><span class="sig-paren">(</span><em>refPathScan</em>, <em>compPathScan</em><span class="sig-paren">)</span><a class="headerlink" href="#compare.Handler" title="Permalink to this definition">¶</a></dt>
+<dd><p>Handler class the carries out the comparison between the directories of the libraries</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>refPathScan</strong> (<a class="reference internal" href="ptree.html#ptree.PathScan" title="ptree.PathScan"><em>ptree.PathScan</em></a>) &#8211; Scan of the reference directory</li>
+<li><strong>compPathScan</strong> (<a class="reference internal" href="ptree.html#ptree.PathScan" title="ptree.PathScan"><em>ptree.PathScan</em></a>) &#8211; Scan of the directory to be compared to the reference</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="attribute">
+<dt id="compare.Handler.compPathScan">
+<code class="descname">compPathScan</code><a class="headerlink" href="#compare.Handler.compPathScan" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Scan of the directory to be compared to the reference</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="ptree.html#ptree.PathScan" title="ptree.PathScan">ptree.PathScan</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="compare.Handler.describe">
+<code class="descname">describe</code><span class="sig-paren">(</span><em>filepath='./whamdil.log'</em><span class="sig-paren">)</span><a class="headerlink" href="#compare.Handler.describe" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a log file providing a description of differences between the content of directories</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>filepath</strong> (<em>str</em>) &#8211; Path to the logfile (default=``./whamdil.log``)</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="compare.Handler.misnaming">
+<code class="descname">misnaming</code><a class="headerlink" href="#compare.Handler.misnaming" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Collection of Misnaming objects created during the construction</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Rtypes:</th><td class="field-body">compare.Misnaming</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="compare.Handler.misplacement">
+<code class="descname">misplacement</code><a class="headerlink" href="#compare.Handler.misplacement" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Collection of Misplacement objects created during the construction</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Rtypes:</th><td class="field-body">compare.Misplacement</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="compare.Handler.missing">
+<code class="descname">missing</code><a class="headerlink" href="#compare.Handler.missing" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Collection of Missing objects created during the construction</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Rtypes:</th><td class="field-body">compare.Missing</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="compare.Handler.new">
+<code class="descname">new</code><a class="headerlink" href="#compare.Handler.new" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Collection of New objects created during the construction</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Rtypes:</th><td class="field-body">compare.New</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="compare.Handler.redundancy">
+<code class="descname">redundancy</code><a class="headerlink" href="#compare.Handler.redundancy" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Collection of Redundancy objects created during the construction</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Rtypes:</th><td class="field-body">compare.Redundancy</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="compare.Handler.refPathScan">
+<code class="descname">refPathScan</code><a class="headerlink" href="#compare.Handler.refPathScan" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Scan of the reference directory</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="ptree.html#ptree.PathScan" title="ptree.PathScan">ptree.PathScan</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="compare.Handler.shell">
+<code class="descname">shell</code><span class="sig-paren">(</span><em>filepath='./whamdil.sh'</em><span class="sig-paren">)</span><a class="headerlink" href="#compare.Handler.shell" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a Bourne shell script file providing commands intending to even the directories</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>filepath</strong> (<em>str</em>) &#8211; Path to the shell script (default=``./whamdil.sh``)</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="compare.Misnaming">
+<em class="property">class </em><code class="descclassname">compare.</code><code class="descname">Misnaming</code><span class="sig-paren">(</span><em>path</em>, <em>refName</em>, <em>compName</em><span class="sig-paren">)</span><a class="headerlink" href="#compare.Misnaming" title="Permalink to this definition">¶</a></dt>
+<dd><p>Represents a file in the compared directory that has the proper relative path but is misnamed.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>path</strong> (<em>str</em>) &#8211; relative path of the files</li>
+<li><strong>refName</strong> (<em>str</em>) &#8211; name of the file in the reference directory</li>
+<li><strong>compName</strong> (<em>str</em>) &#8211; name of the minsnamed file in the compared directory</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="compare.Misnaming.action">
+<code class="descname">action</code><span class="sig-paren">(</span><em>form='text'</em><span class="sig-paren">)</span><a class="headerlink" href="#compare.Misnaming.action" title="Permalink to this definition">¶</a></dt>
+<dd><p>Produce a text logfile with a description of the action to perform in order to make both paths even</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">content of the file</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">list(str)</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="compare.Misnaming.shell">
+<code class="descname">shell</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#compare.Misnaming.shell" title="Permalink to this definition">¶</a></dt>
+<dd><p>Produce the shell script content</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">content of the file</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">list(str)</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="compare.Misplacement">
+<em class="property">class </em><code class="descclassname">compare.</code><code class="descname">Misplacement</code><span class="sig-paren">(</span><em>refPath</em>, <em>refName</em>, <em>compFounds</em><span class="sig-paren">)</span><a class="headerlink" href="#compare.Misplacement" title="Permalink to this definition">¶</a></dt>
+<dd><p>Represents a file in the compared directory that is placed in a different path from an identical file found in the reference directory.
+refPath,refName,compFounds</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>refPath</strong> &#8211; relative path of the reference file</li>
+<li><strong>refName</strong> (<em>str</em>) &#8211; name of the file in the reference directory</li>
+<li><strong>compFounds</strong> (<em>list( (str,str) )</em>) &#8211; files in the compared directory that are misplaced [(path,filename),...]</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="compare.Misplacement.action">
+<code class="descname">action</code><span class="sig-paren">(</span><em>form='text'</em><span class="sig-paren">)</span><a class="headerlink" href="#compare.Misplacement.action" title="Permalink to this definition">¶</a></dt>
+<dd><p>Produce a text logfile with a description of the action to perform in order to make both paths even</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">content of the file</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">list(str)</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="compare.Misplacement.shell">
+<code class="descname">shell</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#compare.Misplacement.shell" title="Permalink to this definition">¶</a></dt>
+<dd><p>Produce the shell script content</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">content of the file</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">list(str)</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="compare.Missing">
+<em class="property">class </em><code class="descclassname">compare.</code><code class="descname">Missing</code><span class="sig-paren">(</span><em>refPath</em>, <em>refName</em><span class="sig-paren">)</span><a class="headerlink" href="#compare.Missing" title="Permalink to this definition">¶</a></dt>
+<dd><p>Descriptive elements for files of the reference directory that are missing in the compared one.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>refPath</strong> (<em>str</em>) &#8211; relative path in the reference directory</li>
+<li><strong>refName</strong> (<em>str</em>) &#8211; name of the missing file</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="compare.Missing.action">
+<code class="descname">action</code><span class="sig-paren">(</span><em>form='text'</em><span class="sig-paren">)</span><a class="headerlink" href="#compare.Missing.action" title="Permalink to this definition">¶</a></dt>
+<dd><p>Produce a text logfile with a description of the action to perform in order to make both paths even</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">content of the file</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">list(str)</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="compare.Missing.shell">
+<code class="descname">shell</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#compare.Missing.shell" title="Permalink to this definition">¶</a></dt>
+<dd><p>Produce the shell script content</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">content of the file</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">list(str)</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="compare.New">
+<em class="property">class </em><code class="descclassname">compare.</code><code class="descname">New</code><span class="sig-paren">(</span><em>compPath</em>, <em>compName</em><span class="sig-paren">)</span><a class="headerlink" href="#compare.New" title="Permalink to this definition">¶</a></dt>
+<dd><p>Descriptive elements for files of the compared directory that are missing in the reference one</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>compPath</strong> (<em>str</em>) &#8211; relative path in the compared directory</li>
+<li><strong>compName</strong> (<em>str</em>) &#8211; name of the new file</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="compare.New.action">
+<code class="descname">action</code><span class="sig-paren">(</span><em>form='text'</em><span class="sig-paren">)</span><a class="headerlink" href="#compare.New.action" title="Permalink to this definition">¶</a></dt>
+<dd><p>Produce a text logfile with a description of the action to perform in order to make both paths even</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">content of the file</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">list(str)</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="compare.New.shell">
+<code class="descname">shell</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#compare.New.shell" title="Permalink to this definition">¶</a></dt>
+<dd><p>Produce the shell script content</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">content of the file</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">list(str)</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="compare.Redundancy">
+<em class="property">class </em><code class="descclassname">compare.</code><code class="descname">Redundancy</code><span class="sig-paren">(</span><em>hashVal</em>, <em>files</em><span class="sig-paren">)</span><a class="headerlink" href="#compare.Redundancy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Descriptive elements for files that are redundant in the reference directory</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>hashVal</strong> (<em>str</em>) &#8211; MD5 hash number of the redundant files (lower case hexadecimal)</li>
+<li><strong>files</strong> (<em>list( (str,str) )</em>) &#8211; Collection of information on the redundant files  [(path,filename),...]</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="compare.Redundancy._Redundancy__fp">
+<code class="descname">_Redundancy__fp</code><span class="sig-paren">(</span><em>path</em><span class="sig-paren">)</span><a class="headerlink" href="#compare.Redundancy._Redundancy__fp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Format Path for dealing with root directory case</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="compare.Redundancy.action">
+<code class="descname">action</code><span class="sig-paren">(</span><em>form='text'</em><span class="sig-paren">)</span><a class="headerlink" href="#compare.Redundancy.action" title="Permalink to this definition">¶</a></dt>
+<dd><p>Produce a text logfile with a description of the action to perform in order to make both paths even</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">content of the file</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">list(str)</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="compare.Redundancy.shell">
+<code class="descname">shell</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#compare.Redundancy.shell" title="Permalink to this definition">¶</a></dt>
+<dd><p>Produce the shell script content</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">content of the file</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">list(str)</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt>
+<em class="property">class </em><code class="descclassname">compare.</code><code class="descname">Handler</code><span class="sig-paren">(</span><em>refPathScan</em>, <em>compPathScan</em><span class="sig-paren">)</span></dt>
+<dd><p>Handler class the carries out the comparison between the directories of the libraries</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>refPathScan</strong> (<a class="reference internal" href="ptree.html#ptree.PathScan" title="ptree.PathScan"><em>ptree.PathScan</em></a>) &#8211; Scan of the reference directory</li>
+<li><strong>compPathScan</strong> (<a class="reference internal" href="ptree.html#ptree.PathScan" title="ptree.PathScan"><em>ptree.PathScan</em></a>) &#8211; Scan of the directory to be compared to the reference</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="attribute">
+<dt>
+<code class="descname">compPathScan</code></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Scan of the directory to be compared to the reference</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="ptree.html#ptree.PathScan" title="ptree.PathScan">ptree.PathScan</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">describe</code><span class="sig-paren">(</span><em>filepath='./whamdil.log'</em><span class="sig-paren">)</span></dt>
+<dd><p>Create a log file providing a description of differences between the content of directories</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>filepath</strong> (<em>str</em>) &#8211; Path to the logfile (default=``./whamdil.log``)</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">misnaming</code></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Collection of Misnaming objects created during the construction</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Rtypes:</th><td class="field-body">compare.Misnaming</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">misplacement</code></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Collection of Misplacement objects created during the construction</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Rtypes:</th><td class="field-body">compare.Misplacement</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">missing</code></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Collection of Missing objects created during the construction</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Rtypes:</th><td class="field-body">compare.Missing</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">new</code></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Collection of New objects created during the construction</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Rtypes:</th><td class="field-body">compare.New</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">redundancy</code></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Collection of Redundancy objects created during the construction</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Rtypes:</th><td class="field-body">compare.Redundancy</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">refPathScan</code></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Scan of the reference directory</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="ptree.html#ptree.PathScan" title="ptree.PathScan">ptree.PathScan</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">shell</code><span class="sig-paren">(</span><em>filepath='./whamdil.sh'</em><span class="sig-paren">)</span></dt>
+<dd><p>Create a Bourne shell script file providing commands intending to even the directories</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>filepath</strong> (<em>str</em>) &#8211; Path to the shell script (default=``./whamdil.sh``)</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="index.html">Source code documentation</a><ul>
+      <li>Previous: <a href="ptree.html" title="previous chapter">Module <strong>ptree</strong></a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/source/compare.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2017, Frédéric Laudarin.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.6</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
+      
+      |
+      <a href="../_sources/source/compare.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

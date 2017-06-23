@@ -14,7 +14,7 @@ Contents
 
    design/index
    tests/index
-   source
+   source/index
 
 
 Indices and tables

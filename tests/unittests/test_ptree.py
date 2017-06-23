@@ -32,12 +32,17 @@ from ptree import *
 
 
 class TestPathScan(unittest.TestCase):
-
+    """
+    This TestCase subclasses test the constructor and methods of class ptree.PathScan
+    """
     testCasesPath = os.path.abspath('../test_cases/')
     testedPath = './path01'
 
     @classmethod
     def setUpClass(cls):
+        """
+        This class method prepares common data used by test methods.
+        """
         # Generation of the test case path 'path01' with script gen_path01.sh
         proc = subprocess.Popen(['bash',os.path.join(TestPathScan.testCasesPath, 'gen_path01.sh')])
         proc.communicate()
@@ -83,27 +88,42 @@ class TestPathScan(unittest.TestCase):
 
     @classmethod
     def tearDownClass(cls):
+        """
+        Tear down class method that remove the test case directories and the reference text file with hash numbers.
+        """
         if os.path.isdir(TestPathScan.testedPath):
             shutil.rmtree(TestPathScan.testedPath)
         os.unlink('md5_path01.txt')
 
 
     def test_path(self):
+        """
+        Test the PathScan.path attribute
+        """
         ptObj = TestPathScan.pTreeObj
         self.assertEqual(ptObj.path, os.path.abspath(TestPathScan.testedPath))
 
     def test_directories(self):
+        """
+        Test the PathScan.directories attribute
+        """
         directories = TestPathScan.pTreeObj.directories
 
         for (ref,test) in zip(TestPathScan.refDirectories,directories):
             self.assertEqual(ref,test)
 
     def test_libFiles(self):
+        """
+        Test the PathScan.libFiles attribute
+        """
         libFiles = TestPathScan.pTreeObj.libFiles
 
         self.assertEqual(TestPathScan.refLibFiles,libFiles)
 
     def test_getRelPath(self):
+        """
+        Test the PathScan.getRelPath() method
+        """
         path = TestPathScan.pTreeObj.getRelPath(4)
         root = TestPathScan.pTreeObj.getRelPath(0)
         nopath = TestPathScan.pTreeObj.getRelPath(12)

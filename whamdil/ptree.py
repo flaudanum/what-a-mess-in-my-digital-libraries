@@ -1,5 +1,6 @@
 # coding: UTF-8
 """
+This module provides class PathScan
 Compatibility: python 3.5 (required by os.DirEntry)
 """
 
@@ -8,23 +9,48 @@ import hashlib
 import json
 
 class PathScan:
+    """
+    Abstraction for providing the data structure stemming from the scan of a path.
+
+    :param path: path to the scanned directory
+    :type path: str
+    :param question: If a directory has already been scanned, is it asked to the user whether the directory should scanned again.
+    :type question: bool
+    :raises OSError: when the value of path is not an existing directory
+    """
 
     saveFilename = '.whamdil.json'
 
     @property
     def path(self):
+        """
+        :returns: the path of the scanned directory
+        :rtype: str
+        """
         return self.__path
 
     @property
     def saveFilePath(self):
+        """
+        :returns: the path of the JSON save file with the scanning data
+        :rtype: str
+        """
         return os.path.join(self.path,PathScan.saveFilename)
 
     @property
     def directories(self):
+        """
+        :returns: information on sub-directories in the scanned directory [{'name': directory name, 'par': ID of the parent directory, 'id': ID of the directory}]
+        :rtype: list( {'name':str, 'par':int, 'id':int} )
+        """
         return self.__directories
 
     @property
     def libFiles(self):
+        """
+        :returns: information on every file in the path [{'name':file name, 'dir': ID of the directory where the file is, 'hash':MD5 hash number} ]
+        :rtype: list( {'name':str, 'dir': int, 'hash': str} )
+        """
         return self.__libFiles
 
     @staticmethod
@@ -33,9 +59,9 @@ class PathScan:
         Compute the md5 sum of a file
 
         :param filePath: path to the file
-        :type hashnum: str
-        :returns: str
-
+        :type filePath: str
+        :returns: MD5 cryptographic hash number
+        :rtype: str
         """
         BLOCKSIZE = 65536
         hasher = hashlib.md5()
@@ -104,6 +130,9 @@ class PathScan:
     def __json(self):
         """
         Read scan data from a JSON file.
+
+        :returns (directories, libFiles):
+        :rtype: list(list(dict()),list(dict()))
         """
         with open(self.saveFilePath,'rb') as buffRder:
             output = buffRder.read().decode('UTF-8')
