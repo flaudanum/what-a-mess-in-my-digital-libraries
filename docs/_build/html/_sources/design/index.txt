@@ -6,3 +6,5 @@ Documentation of the design process
    :maxdepth: 2
 
    use_cases
+
+.. image:: ../figures/class_diagram.png
