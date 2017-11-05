@@ -6,6 +6,7 @@ Compatibility: python 3.X
 import os
 import unittest.mock
 
+
 class Handler:
     """
     Handler class the carries out the comparison between the directories of the libraries
@@ -16,6 +17,7 @@ class Handler:
     :type compPathScan: ptree.PathScan
     """
 
+
     @property
     def refPathScan(self):
         """
@@ -23,6 +25,7 @@ class Handler:
         :rtype: ptree.PathScan
         """
         return self.__refPathScan
+
 
     @property
     def compPathScan(self):
@@ -32,6 +35,7 @@ class Handler:
         """
         return self.__compPathScan
 
+
     @property
     def misnaming(self):
         """
@@ -39,6 +43,7 @@ class Handler:
         :rtypes: compare.Misnaming
         """
         return self.__misnaming
+
 
     @property
     def misplacement(self):
@@ -48,6 +53,7 @@ class Handler:
         """
         return self.__misplacement
 
+
     @property
     def missing(self):
         """
@@ -55,6 +61,7 @@ class Handler:
         :rtypes: compare.Missing
         """
         return self.__missing
+
 
     @property
     def new(self):
@@ -64,6 +71,7 @@ class Handler:
         """
         return self.__new
 
+
     @property
     def redundancy(self):
         """
@@ -71,6 +79,7 @@ class Handler:
         :rtypes: compare.Redundancy
         """
         return self.__redundancy
+
 
     def __init__(self, refPathScan, compPathScan):
 
@@ -139,6 +148,7 @@ class Handler:
         :param filepath: Path to the logfile (default=``./whamdil.log``)
         :type filepath: str
         """
+
         text = list()
         text.append('[REF]: {0}\n'.format(self.refPathScan.path))
         text.append('[COMP]: {0}\n'.format(self.compPathScan.path))
@@ -174,6 +184,7 @@ class Handler:
             for line in text:
                 txtIOWrapper.write(line)
 
+
     def shell(self,filepath='./whamdil.sh'):
         """
         Create a Bourne shell script file providing commands intending to even the directories
@@ -182,9 +193,11 @@ class Handler:
         :type filepath: str
         """
         text = list()
+        text.append('#!/usr/bin/bash'+'\n'*2)
+        text.append("IFS=';'"+'\n'*2)
         text.append('# Path to directories\n')
-        text.append('REF={0}\n'.format(self.refPathScan.path))
-        text.append('COMP={0}\n'.format(self.compPathScan.path))
+        text.append("REF='{0}'\n".format(self.refPathScan.path))
+        text.append("COMP='{0}'\n".format(self.compPathScan.path))
         text.append('\n')
 
         # Print misnaming commands
@@ -250,7 +263,8 @@ class Misnaming:
         self.__compName = compName
 
     def __repr__(self):
-        return 'Misnaming(path=\'{path}\',refName=\'{ref}\',compName=\'{comp}\')'.format(path=self.path,ref=self.refName,comp=self.compName)
+        return 'Misnaming(path=\'{path}\',refName=\'{ref}\',compName=\'{comp}\')'.format(path=self.path, 
+                ref=self.refName, comp=self.compName)
 
     def action(self,form='text'):
         """
@@ -280,7 +294,7 @@ class Misnaming:
         """
         fp = lambda path: '' if path=='' else '/'+path # Format Path for dealing with root directory case
         command = ['# Misnaming $REF{0}/{1}\n'.format(fp(self.path),self.refName),]
-        command.append('mv $COMP{0}/{1} $COMP{0}/{2}\n'.format(fp(self.path),self.compName,self.refName))
+        command.append('mv "$COMP{0}/{1}" "$COMP{0}/{2}"\n'.format(fp(self.path), self.compName, self.refName))
 
         return command
 
@@ -288,7 +302,8 @@ class Misnaming:
 
 class Misplacement:
     """
-    Represents a file in the compared directory that is placed in a different path from an identical file found in the reference directory.
+    Represents a file in the compared directory that is placed in a different path from an identical file found in the 
+    reference directory.
     refPath,refName,compFounds
 
     :param refPath: relative path of the reference file
@@ -320,7 +335,7 @@ class Misplacement:
 
     def __repr__(self):
         return 'Misplacement(refPath=\'{refPath}\',refName=\'{refName}\',compFounds={compFounds})'.\
-        format(refPath=self.refPath,refName=self.refName,compFounds=str(self.compFounds))
+        format(refPath=self.refPath, refName=self.refName, compFounds=str(self.compFounds))
 
     def action(self,form='text'):
         """
@@ -336,8 +351,9 @@ class Misplacement:
 
     def __actionText(self):
         fp = lambda path: '' if path=='' else '/'+path # Format Path for dealing with root directory case
-        message = ['#MISPLACEMENT: [REF]{0}/{1}\n'.format(fp(self.refPath),self.refName),]
-        message.append('Move file [COMP]{0}/{1} to [COMP]{2}/{3}\n'.format(fp(self.compFounds[0][0]),self.compFounds[0][1],fp(self.refPath),self.refName))
+        message = ['#MISPLACEMENT: [REF]{0}/{1}\n'.format(fp(self.refPath), self.refName),]
+        message.append('Move file [COMP]{0}/{1} to [COMP]{2}/{3}\n'.format(fp(self.compFounds[0][0]), 
+            self.compFounds[0][1], fp(self.refPath), self.refName))
         message+=['Remove file [COMP]{0}/{1}\n'.format(fp(found[0]),found[1]) for found in self.compFounds[1:]]
         return message
 
@@ -349,9 +365,10 @@ class Misplacement:
         :rtype: list(str)
         """
         fp = lambda path: '' if path=='' else '/'+path # Format Path for dealing with root directory case
-        command = ['# Misplaced copies of [REF]{0}/{1}\n'.format(fp(self.refPath),self.refName),]
-        command.append('mv $COMP{0}/{1} $COMP{2}/{3}\n'.format(fp(self.compFounds[0][0]),self.compFounds[0][1],fp(self.refPath),self.refName))
-        command+=['rm -i $COMP{0}/{1}\n'.format(fp(found[0]),found[1]) for found in self.compFounds[1:]]
+        command = ['# Misplaced copies of [REF]{0}/{1}\n'.format(fp(self.refPath), self.refName),]
+        command.append('mv "$COMP{0}/{1}" "$COMP{2}/{3}"\n'.format(fp(self.compFounds[0][0]), self.compFounds[0][1], 
+            fp(self.refPath), self.refName))
+        command+=['rm -i "$COMP{0}/{1}"\n'.format(fp(found[0]), found[1]) for found in self.compFounds[1:]]
         return command
 
 
@@ -380,7 +397,7 @@ class Missing:
         self.__refName = refName
 
     def __repr__(self):
-        return 'Missing(refPath=\'{refPath}\',refName=\'{refName}'.format(refPath=self.refPath,refName=self.refName)
+        return 'Missing(refPath=\'{refPath}\',refName=\'{refName}'.format(refPath=self.refPath, refName=self.refName)
 
 
     def action(self,form='text'):
@@ -397,7 +414,7 @@ class Missing:
 
     def __actionText(self):
         fp = lambda path: '' if path=='' else '/'+path # Format Path for dealing with root directory case
-        message = ['#MISSING: [REF]{0}/{1} in [COMP]\n'.format(fp(self.refPath),self.refName),]
+        message = ['#MISSING: [REF]{0}/{1} in [COMP]\n'.format(fp(self.refPath), self.refName),]
         return message
 
     def shell(self):
@@ -408,9 +425,10 @@ class Missing:
         :rtype: list(str)
         """
         fp = lambda path: '' if path=='' else '/'+path # Format Path for dealing with root directory case
-        command = ['# Missing file $REF{0}/{1} in $COMP\n'.format(fp(self.refPath),self.refName),]
-        command.append('cp $REF{0}/{1} $COMP{0}/{1}\n'.format(fp(self.refPath),self.refName))
+        command = ['# Missing file $REF{0}/{1} in $COMP\n'.format(fp(self.refPath), self.refName),]
+        command.append('cp "$REF{0}/{1}" "$COMP{0}/{1}"\n'.format(fp(self.refPath), self.refName))
         return command
+
 
 class New:
     """
@@ -437,7 +455,7 @@ class New:
         self.__compName = compName
 
     def __repr__(self):
-        return 'New(compPath=\'{compPath}\',compName=\'{compName}'.format(compPath=self.compPath,refName=self.compName)
+        return 'New(compPath=\'{compPath}\',compName=\'{compName}'.format(compPath=self.compPath, refName=self.compName)
 
 
     def action(self,form='text'):
@@ -454,7 +472,7 @@ class New:
 
     def __actionText(self):
         fp = lambda path: '' if path=='' else '/'+path # Format Path for dealing with root directory case
-        message = ['#NEW: [COMP]{0}/{1}\n'.format(fp(self.compPath),self.compName),]
+        message = ['#NEW: [COMP]{0}/{1}\n'.format(fp(self.compPath), self.compName),]
         return message
 
     def shell(self):
@@ -466,8 +484,9 @@ class New:
         """
         fp = lambda path: '' if path=='' else '/'+path # Format Path for dealing with root directory case
         command = ['# New file $COMP{0}/{1}\n'.format(fp(self.compPath),self.compName),]
-        command.append('cp $COMP{0}/{1} $REF{0}/{1}\n'.format(fp(self.compPath),self.compName))
+        command.append('cp "$COMP{0}/{1}" "$REF{0}/{1}"\n'.format(fp(self.compPath), self.compName))
         return command
+
 
 class Redundancy:
     """
@@ -530,3 +549,4 @@ class Redundancy:
         fp = lambda path: '' if path=='' else '/'+path # Format Path for dealing with root directory case
         command = ['# Redundancy: manual operation must be considered\n',]
         return command
+

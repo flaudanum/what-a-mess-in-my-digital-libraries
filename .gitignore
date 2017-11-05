@@ -1,0 +1,14 @@
+# sphinx build folders
+_build
+_static
+_templates
+
+# Symbolic link to doc
+documentation.html
+
+# Run script
+scripts/whamdil
+
+# Cached python bytecode
+__pycache__
+
